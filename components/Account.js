@@ -2,8 +2,10 @@ import { StyleSheet, Text, View, Alert } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import BottomNavigator from './BottomNavigator'
+import { globalStyles } from '../styles/global'
 
-export default function Account({ session }) {
+export default function Account({ session, navigation }) {
     const [loading, setLoading] = useState(true)
     const [username, setUsername] = useState('')
     
@@ -62,41 +64,73 @@ export default function Account({ session }) {
         }
     } 
 
-  return (
-    <View style={styles.container}>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input label="Email" value={session?.user?.email} disabled />
-      </View>
-      <View style={styles.verticallySpaced}>
-        <Input label="Username" value={username || ''} onChangeText={(text) => setUsername(text)} />
-      </View>
+    const handleDeleteAccount = async () => {
+      Alert.alert(
+        'Confirmation',
+        'Are you sure you want to delete your account ?',
+        [
+          {
+            text: 'No',
+            style: 'cancel'
+          },
+          {
+            text: 'Yes',
+            onPress: () => confirmDelete()
+          }
+        ],
+        { cancelable: false }
+      );
+    }
 
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+    const confirmDelete = async () => {
+      try {
+        const userId = session.user.id;
+        console.log('id: ', userId);
+        const { error } = await supabase
+        .from('users')
+        .delete()
+        .eq('id', userId)
+
+        if (error) {
+          console.error(error.message);
+        }
+
+        console.log('Account has been deleted !');
+        await supabase.auth.signOut();
+
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+  return (
+    <View style={globalStyles.container}>
+
+      <View style={styles.container}>
+        <Input label="Email" value={session?.user?.email} disabled />
+        <Input label="Username" value={username || ''} onChangeText={(text) => setUsername(text)} />
         <Button
           title={loading ? 'Loading ...' : 'Update'}
           onPress={() => updateProfile({ username })}
           disabled={loading}
         />
+        <Button title="Sign Out" onPress={() => supabase.auth.signOut()} />
+        <Button title="Delete Account" buttonStyle={styles.delete} onPress={handleDeleteAccount}/>
       </View>
 
-      <View style={styles.verticallySpaced}>
-        <Button title="Sign Out" onPress={() => supabase.auth.signOut()} />
-      </View>
+
+      <BottomNavigator navigation={navigation}/>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
     container: {
-      marginTop: 40,
       padding: 12,
+      rowGap: 15
     },
-    verticallySpaced: {
-      paddingTop: 4,
-      paddingBottom: 4,
-      alignSelf: 'stretch',
-    },
-    mt20: {
-      marginTop: 20,
-    },
+    delete: {
+      backgroundColor: '#e31e00',
+      color: 'white'
+    }
   })

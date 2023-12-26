@@ -2,11 +2,11 @@ import { StyleSheet } from "react-native";
 
 export const globalStyles = StyleSheet.create({
     container: {
-        padding: 24,
-        flex: 1
+        flex: 1,
+        justifyContent: 'space-between'
     },
     titleText: {
-        fontFamily: 'nunito-bold',
+        fontWeight: 'bold',
         fontSize: 25,
         color: '#333'
     },
@@ -15,13 +15,19 @@ export const globalStyles = StyleSheet.create({
         lineHeight: 20
     },
     formHeader: {
-        fontFamily: 'nunito-bold',
+        fontWeight: 'bold',
         fontSize: 18,
     },
     textInput: {
-        fontFamily: 'nunito-regular',
         fontSize: 15,
         borderBottomWidth: 1,
         paddingVertical: 15
+    },
+    chatTextInput : {
+        fontSize: 16,
+        borderRadius: 10,
+        padding: 15,
+        flex: 1,
+        backgroundColor: '#fffef7'
     }
 });

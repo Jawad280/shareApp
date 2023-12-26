@@ -6,8 +6,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'react-native-url-polyfill/auto'
 
-import Home from './screens/Home';
-import Profile from './screens/Profile';
 import ItemCreation from './screens/ItemCreation';
 import Feed from './screens/Feed';
 import ItemDetails from './screens/ItemDetails';
@@ -15,6 +13,9 @@ import ItemDetails from './screens/ItemDetails';
 import { supabase } from './lib/supabase';
 import Account from './components/Account';
 import Auth from './components/Auth';
+import Chatroom from './screens/Chatroom';
+import AllChats from './screens/AllChats';
+import MyItems from './screens/MyItems';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -59,32 +60,58 @@ export default function App() {
             <Stack.Navigator >
               {session && session.user ? (
                 <>
-                  <Stack.Screen name='Home'>
-                    {(props) => <Home {...props} key={session.user.id} session={session}/>}
-                  </Stack.Screen>
-                  <Stack.Screen name='Account'>
-                    {(props) => <Account {...props} key={session.user.id} session={session}/>}
-                  </Stack.Screen>
-                  <Stack.Screen name='Profile' component={Profile} />
-                  <Stack.Screen name='ItemCreation'>
-                    {(props) => <ItemCreation {...props} key={session.user.id} session={session}/>}
-                  </Stack.Screen>
-                  <Stack.Screen name='Feed'>
+                  <Stack.Screen 
+                    name='Feed'
+                    options={{ title: 'Main Feed', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}
+                  >
                     {(props) => <Feed {...props} key={session.user.id} session={session}/>}
                   </Stack.Screen>
-                  <Stack.Screen name='ItemDetails'>
+
+                  <Stack.Screen 
+                    name='Account'
+                    options={{ title: 'My Profile', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}
+                  >
+                    {(props) => <Account {...props} key={session.user.id} session={session}/>}
+                  </Stack.Screen>
+
+                  <Stack.Screen 
+                    name='ItemCreation'
+                    options={{ title: 'Create listing', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}
+                  >
+                    {(props) => <ItemCreation {...props} key={session.user.id} session={session}/>}
+                  </Stack.Screen>
+
+                  <Stack.Screen 
+                    name='MyItems'
+                    options={{ title: 'Items', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}
+                  >
+                    {(props) => <MyItems {...props} key={session.user.id} session={session}/>}
+                  </Stack.Screen>
+
+                  <Stack.Screen 
+                    name='ItemDetails'
+                    options={
+                      ({ route }) => ({ title: route.params.item.name, headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false })
+                    }
+                  >
                     {(props) => <ItemDetails {...props} key={session.user.id} session={session}/>}
                   </Stack.Screen>
+
+                  <Stack.Screen name='Chatroom' options={{ title: 'Chatroom', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}>
+                    {(props) => <Chatroom {...props} key={session.user.id} session={session}/>}
+                  </Stack.Screen>
+
+                  <Stack.Screen name='AllChats' options={{ title: 'My Chats', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}>
+                    {(props) => <AllChats {...props} key={session.user.id} session={session}/>}
+                  </Stack.Screen>
+                  
                 </>
               ) : (
                 <>
-                  <Stack.Screen name='Login' component={Auth}/>          
+                  <Stack.Screen name='Login' component={Auth} options={{title: 'ShareApp'}}/>          
                 </>
               )}
-            </Stack.Navigator>        
-          {/* {
-            session && session.user ? <Account key={session.user.id} session={session}/> : <Auth />
-          }  */}
+            </Stack.Navigator>
         </View>
       </TouchableWithoutFeedback>
     </NavigationContainer>

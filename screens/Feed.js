@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { globalStyles } from '../styles/global'
 import { supabase } from '../lib/supabase'
 import ItemTile from '../components/ItemTile';
+import BottomNavigator from '../components/BottomNavigator';
 
 export default function Feed({ navigation, session }) {
 
@@ -18,25 +19,27 @@ export default function Feed({ navigation, session }) {
         const { data, error } = await supabase.from('items').select('*');
 
         if (error) {
-            console.error(error.message)
+          console.error(error.message)
         } else {
-            setAllItems(data);
+          const filteredData = data.filter((item) => item.is_published && item.is_available)
+          console.log(filteredData)
+          setAllItems(filteredData)
         }
     }
 
 
   return (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.formHeader}>Main Feed</Text>
       <FlatList 
         data={allItems}
         keyExtractor={(items) => items.id}
         renderItem={({item}) => (
-            <TouchableOpacity onPress={() => navigation.navigate('ItemDetails', { item })}>
-                <ItemTile item={item} userId={userId} onLike={setLikedItem}/>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ItemDetails', { item })}>
+              <ItemTile item={item} userId={userId} onLike={setLikedItem} navigation={navigation}/>
+          </TouchableOpacity>
         )}
       />
+      <BottomNavigator navigation={navigation}/>
     </View>
   )
 }

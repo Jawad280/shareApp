@@ -1,14 +1,12 @@
-import { StyleSheet, Text, View,FlatList, TouchableOpacity } from 'react-native'
-import React, { useRef, useState } from 'react'
+import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
 import { globalStyles } from '../styles/global';
-import { Button, Input } from 'react-native-elements';
 import { supabase } from '../lib/supabase';
-import ItemTile from '../components/ItemTile';
+import BottomNavigator from '../components/BottomNavigator';
 
 export default function ItemCreation({ navigation, session }) {
 
   const [name, setName] = useState('');
-  const [listedItems, setListedItems] = useState([]);
 
   const handleCreateItem = async () => {
     const newItem = {
@@ -28,48 +26,45 @@ export default function ItemCreation({ navigation, session }) {
     }
   }
 
-  const getListedItems = async () => {
-    const { data, error } = await supabase
-    .from('items')
-    .select('*')
-    .eq('listed_by', session.user.id);
-
-    if (error) {
-      console.error(error.message)
-    } else {
-      console.log(data)
-      setListedItems(data);
-    }
-
-  }
-
   console.log('ItemCreation: ',session.user.id);
 
   return (
     <View style={globalStyles.container}> 
-      <View style={globalStyles.formHeader}>
-        <Input label="Name of item" value={name} style={globalStyles.textInput} onChangeText={(t) => setName(t)}/>
+      
+      <View style={styles.container}>
+        
+        <View style={{rowGap: 10, width: '100%'}}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'grey' }}>Name</Text>
+          <TextInput value={name} style={styles.textInput} onChangeText={(t) => setName(t)}/>
+        </View>
+
+        <TouchableOpacity onPress={handleCreateItem} style={styles.button}>
+          <Text style={{color: 'white'}}>Create Listing !</Text>
+        </TouchableOpacity>
       </View>
-      <Button 
-        title={'Create item !'}
-        onPress={handleCreateItem}
-      />
-      <View>
-        <Text>All your listed items : </Text>
-        <Button 
-          title={'View Your items'}
-          onPress={getListedItems}
-        />        
-        <FlatList 
-          data={listedItems}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={() => navigation.navigate('ItemDetails', { item })}>
-              <ItemTile item={item}/>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
+
+      <BottomNavigator navigation={navigation} />
+
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 15,
+    alignItems: 'center',
+    rowGap: 15
+  },
+  textInput: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 15,
+    borderColor: 'grey',
+    fontSize: 18
+  },
+  button: {
+    padding: 20,
+    backgroundColor: 'green',
+    borderRadius: 8
+  }
+})
