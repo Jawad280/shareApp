@@ -40,15 +40,16 @@ const AllChats = ({ session, navigation }) => {
 
   return (
     <View style={globalStyles.container}>
-      <Button 
-        title='Get my chats for items i have listed'
-        onPress={getMyChats}
-      />
 
-      <Button 
-        title='Get my chats for items i want to buy'
-        onPress={getMyChatsLiked}
-      />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 15, columnGap: 15 }} >
+        <TouchableOpacity style={styles.buttonClicked} onPress={getMyChats}>
+          <Text style={{ fontSize: 18, padding: 20 }}>Your Listed Items</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.buttonClicked} onPress={getMyChatsLiked}>
+          <Text style={{ fontSize: 18, padding: 20 }}>Your Liked Items</Text>
+        </TouchableOpacity>
+      </View>
 
       <FlatList 
         data={myChats}
@@ -67,4 +68,10 @@ const AllChats = ({ session, navigation }) => {
 
 export default AllChats
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  buttonClicked: {
+    flex: 1, 
+    borderRadius: 10, 
+    backgroundColor: 'lightgray'
+  }
+})

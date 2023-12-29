@@ -4,6 +4,7 @@ import { globalStyles } from '../styles/global'
 import { supabase } from '../lib/supabase'
 import ItemTile from '../components/ItemTile';
 import BottomNavigator from '../components/BottomNavigator';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Feed({ navigation, session }) {
 
@@ -11,9 +12,11 @@ export default function Feed({ navigation, session }) {
     const userId = session.user.id;
     const [likedItem, setLikedItem] = useState(null);
 
-    useEffect(() => {
+    useFocusEffect(
+      React.useCallback(() => {
         fetchItems();
-    }, [likedItem])
+      }, [likedItem]) 
+    );
 
     const fetchItems = async () => {
         const { data, error } = await supabase.from('items').select('*');

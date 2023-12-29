@@ -89,7 +89,7 @@ const Chatroom = ({ navigation, session, route }) => {
 
         </View>
 
-        <BottomNavigator />
+        <BottomNavigator navigation={navigation}/>
 
       </View>
   )

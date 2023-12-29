@@ -50,15 +50,15 @@ const MyItems = ({ session, navigation }) => {
 
   return (
     <View style={globalStyles.container}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 15, columnGap: 15 }} >
-            <TouchableOpacity style={styles.buttonClicked} onPress={getListedItems}>
-                <Text style={{ fontSize: 18, padding: 20 }}>Your Listed Items</Text>
-            </TouchableOpacity>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 15, columnGap: 15 }} >
+        <TouchableOpacity style={styles.buttonClicked} onPress={getListedItems}>
+          <Text style={{ fontSize: 18, padding: 20 }}>Your Listed Items</Text>
+        </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonClicked} onPress={getLikedItems}>
-                <Text style={{ fontSize: 18, padding: 20 }}>Your Liked Items</Text>
-            </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.buttonClicked} onPress={getLikedItems}>
+          <Text style={{ fontSize: 18, padding: 20 }}>Your Liked Items</Text>
+        </TouchableOpacity>
+      </View>
 
       <FlatList 
         data={userItems}

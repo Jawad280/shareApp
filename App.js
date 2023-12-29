@@ -82,19 +82,19 @@ export default function App() {
                   </Stack.Screen>
 
                   <Stack.Screen 
-                    name='MyItems'
-                    options={{ title: 'Items', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}
-                  >
-                    {(props) => <MyItems {...props} key={session.user.id} session={session}/>}
-                  </Stack.Screen>
-
-                  <Stack.Screen 
                     name='ItemDetails'
                     options={
                       ({ route }) => ({ title: route.params.item.name, headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false })
                     }
                   >
                     {(props) => <ItemDetails {...props} key={session.user.id} session={session}/>}
+                  </Stack.Screen>
+
+                  <Stack.Screen 
+                    name='MyItems'
+                    options={{ title: 'Items', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}
+                  >
+                    {(props) => <MyItems {...props} key={session.user.id} session={session}/>}
                   </Stack.Screen>
 
                   <Stack.Screen name='Chatroom' options={{ title: 'Chatroom', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}>
