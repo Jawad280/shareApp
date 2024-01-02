@@ -4,6 +4,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import 'react-native-url-polyfill/auto'
 
 import ItemCreation from './screens/ItemCreation';
@@ -16,10 +17,12 @@ import Auth from './components/Auth';
 import Chatroom from './screens/Chatroom';
 import AllChats from './screens/AllChats';
 import MyItems from './screens/MyItems';
+import Main from './screens/Main';
 
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -60,19 +63,9 @@ export default function App() {
             <Stack.Navigator >
               {session && session.user ? (
                 <>
-                  <Stack.Screen 
-                    name='Feed'
-                    options={{ title: 'Main Feed', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}
-                  >
-                    {(props) => <Feed {...props} key={session.user.id} session={session}/>}
-                  </Stack.Screen>
-
-                  <Stack.Screen 
-                    name='Account'
-                    options={{ title: 'My Profile', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}
-                  >
-                    {(props) => <Account {...props} key={session.user.id} session={session}/>}
-                  </Stack.Screen>
+                  <Stack.Screen name='Main' options={{headerShown: false}}>
+                    {(props) => <Main {...props} key={session.user.id} session={session}/>}
+                  </Stack.Screen> 
 
                   <Stack.Screen 
                     name='ItemCreation'
@@ -90,21 +83,10 @@ export default function App() {
                     {(props) => <ItemDetails {...props} key={session.user.id} session={session}/>}
                   </Stack.Screen>
 
-                  <Stack.Screen 
-                    name='MyItems'
-                    options={{ title: 'Items', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}
-                  >
-                    {(props) => <MyItems {...props} key={session.user.id} session={session}/>}
-                  </Stack.Screen>
-
                   <Stack.Screen name='Chatroom' options={{ title: 'Chatroom', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}>
                     {(props) => <Chatroom {...props} key={session.user.id} session={session}/>}
                   </Stack.Screen>
 
-                  <Stack.Screen name='AllChats' options={{ title: 'My Chats', headerStyle: { backgroundColor: 'lightblue' }, headerTintColor: 'black', headerTitleStyle: { fontWeight: 'bold' }, headerBackVisible: false }}>
-                    {(props) => <AllChats {...props} key={session.user.id} session={session}/>}
-                  </Stack.Screen>
-                  
                 </>
               ) : (
                 <>
@@ -115,6 +97,7 @@ export default function App() {
         </View>
       </TouchableWithoutFeedback>
     </NavigationContainer>
+
   )
 }
 

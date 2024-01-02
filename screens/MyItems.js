@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { globalStyles } from '../styles/global';
 import { supabase } from '../lib/supabase';
 import ItemTile from '../components/ItemTile';
-import BottomNavigator from '../components/BottomNavigator';
 
 const MyItems = ({ session, navigation }) => {
 
@@ -70,7 +69,6 @@ const MyItems = ({ session, navigation }) => {
         keyExtractor={(item) => item.id}
       />
 
-      <BottomNavigator navigation={navigation} />
 
     </View>
   )

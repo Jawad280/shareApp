@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, Alert } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
-import BottomNavigator from './BottomNavigator'
 import { globalStyles } from '../styles/global'
 
 export default function Account({ session, navigation }) {
@@ -117,9 +116,6 @@ export default function Account({ session, navigation }) {
         <Button title="Sign Out" onPress={() => supabase.auth.signOut()} />
         <Button title="Delete Account" buttonStyle={styles.delete} onPress={handleDeleteAccount}/>
       </View>
-
-
-      <BottomNavigator navigation={navigation}/>
     </View>
   )
 }

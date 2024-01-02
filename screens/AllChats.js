@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, Button, FlatList, TouchableOpacity } from 'reac
 import React, { useState } from 'react'
 import { supabase } from '../lib/supabase';
 import ChatTile from '../components/ChatTile';
-import BottomNavigator from '../components/BottomNavigator';
 import { globalStyles } from '../styles/global';
 
 const AllChats = ({ session, navigation }) => {
@@ -61,7 +60,6 @@ const AllChats = ({ session, navigation }) => {
         )}
       />
 
-      <BottomNavigator navigation={navigation}/>
     </View>
   )
 }

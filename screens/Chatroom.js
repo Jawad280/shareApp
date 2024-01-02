@@ -5,7 +5,6 @@ import { globalStyles } from '../styles/global';
 import ChatBubble from '../components/ChatBubble';
 import AntDesign from '@expo/vector-icons/AntDesign'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import BottomNavigator from '../components/BottomNavigator';
 
 const Chatroom = ({ navigation, session, route }) => {
 
@@ -88,8 +87,6 @@ const Chatroom = ({ navigation, session, route }) => {
           </View>
 
         </View>
-
-        <BottomNavigator navigation={navigation}/>
 
       </View>
   )

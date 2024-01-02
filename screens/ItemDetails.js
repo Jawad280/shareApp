@@ -1,7 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { globalStyles } from '../styles/global';
-import BottomNavigator from '../components/BottomNavigator';
 import { supabase } from '../lib/supabase';
 import { Image } from 'expo-image';
 
@@ -132,7 +131,6 @@ export default function ItemDetails({ navigation, session, route }) {
         }
       </View>
 
-      <BottomNavigator navigation={navigation}/>
     </View>
   )
 }

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { globalStyles } from '../styles/global'
 import { supabase } from '../lib/supabase'
 import ItemTile from '../components/ItemTile';
-import BottomNavigator from '../components/BottomNavigator';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function Feed({ navigation, session }) {
@@ -42,7 +41,6 @@ export default function Feed({ navigation, session }) {
           </TouchableOpacity>
         )}
       />
-      <BottomNavigator navigation={navigation}/>
     </View>
   )
 }

@@ -2,7 +2,6 @@ import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-nativ
 import React, { useState } from 'react'
 import { globalStyles } from '../styles/global';
 import { supabase } from '../lib/supabase';
-import BottomNavigator from '../components/BottomNavigator';
 
 export default function ItemCreation({ navigation, session }) {
 
@@ -42,8 +41,6 @@ export default function ItemCreation({ navigation, session }) {
           <Text style={{color: 'white'}}>Create Listing !</Text>
         </TouchableOpacity>
       </View>
-
-      <BottomNavigator navigation={navigation} />
 
     </View>
   )
