@@ -1,26 +1,15 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, {useState} from 'react'
 import { globalStyles } from '../styles/global';
 import { supabase } from '../lib/supabase';
 import { Image } from 'expo-image';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ItemDetails({ navigation, session, route }) {
     const { item } = route.params;
     const userId = session.user.id;
 
-    const handlePublish = async () => {
-      try {
-
-        const { error } = await supabase.from('items').update({ is_published: true }).eq('id', item.id);
-        
-        if (error) {
-          console.log(error.message);
-        }
-
-      } catch (error) {
-        Alert(error.message);
-      }
-    }
+    const [isAvail, setIsAvail] = useState(item.is_available);
 
     const handleDelete = async () => {
       console.log('delete item');
@@ -87,6 +76,28 @@ export default function ItemDetails({ navigation, session, route }) {
   
     }
 
+    const handleStatus = async () => {
+      try {
+        const { error } = await supabase.from('items').update({ is_available: !isAvail }).eq('id', item.id);
+        
+        if (error) {
+          console.log(error.message);
+        }
+        setIsAvail(!isAvail)
+
+      } catch (error) {
+        Alert(error.message);
+      }
+    }
+
+    const handleEdit = async () => {
+      console.log('edit product page')
+    }
+
+    const handleShare = async () => {
+      console.log('share link generated ?')
+    }
+
   return (
     <View style={globalStyles.container}>
       <View style={{ rowGap: 15, margin: 15 }}>
@@ -99,33 +110,57 @@ export default function ItemDetails({ navigation, session, route }) {
           placeholder={'Image here'}
           style={styles.image}
         />
-        
-        <View style={styles.container}>
-          <Text style={globalStyles.titleText}>Likes : {item.num_likes}</Text>
-          <Text style={globalStyles.titleText}>Status : {item.is_available ? 'Available' : 'Not Available'}</Text>
-          <Text style={globalStyles.titleText}>Published : {item.is_published ? 'Yes' : 'No'}</Text>
+
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+
+          <Text style={globalStyles.titleText}>Status : {isAvail ? 'Available' : 'Not Available'}</Text>
+          
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Ionicons name='heart' size={30} color={'red'} />
+            <Text >{item.num_likes}</Text>
+          </View>
+          
         </View>
 
+        <View>
+          <Text>Category</Text>
+          <Text>Description</Text>
+          <Text>Collect @ ____</Text>
+        </View>
+        
         {
           userId == item.listed_by ? (
             <View style={styles.container}>
-              <TouchableOpacity onPress={handlePublish} style={styles.button}>
-                <Text style={globalStyles.titleText}>Publish Item</Text>
-              </TouchableOpacity>
+              <View style={{flexDirection: 'row', columnGap: 15}}>
+                <TouchableOpacity onPress={handleStatus} style={styles.button}>
+                  <Ionicons name={item.is_available ? 'lock-open-outline' : 'lock-closed'} size={28} color='#673ab7'/>
+                  <Text style={{color: '#673ab7'}}>{item.is_available ? 'Lock' : 'Unlock'}</Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity style={styles.button}>
-                <Text style={globalStyles.titleText}>Edit Item</Text>
-              </TouchableOpacity>
-    
-              <TouchableOpacity onPress={handleDelete} style={styles.delete}> 
-                <Text style={globalStyles.titleText}>Delete Item</Text>
-              </TouchableOpacity>
+                <TouchableOpacity onPress={handleEdit} style={styles.button}>
+                  <Ionicons name='create-outline' size={28} color='#673ab7'/>
+                  <Text style={{color: '#673ab7'}}>Edit</Text>
+                </TouchableOpacity>
+      
+                <TouchableOpacity onPress={handleDelete} style={styles.button}> 
+                  <Ionicons name='trash-outline' size={28} color='red'/>
+                  <Text style={{color: 'red'}}>Delete</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ) : (
             <View style={styles.container}>
-              <TouchableOpacity style={styles.button} onPress={handleChat}>
-                <Text style={globalStyles.titleText}>Chat to Owner</Text>
-              </TouchableOpacity>
+              <View style={{flexDirection: 'row', columnGap: 15}}>
+                <TouchableOpacity style={styles.button} onPress={handleChat}>
+                  <Ionicons name='chatbubbles-outline' size={28} color='#673ab7'/>
+                  <Text style={{color: '#673ab7'}}>Chat to Seller</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button} onPress={handleShare}>
+                  <Ionicons name='share-outline' size={28} color='#673ab7'/>
+                  <Text style={{color: '#673ab7'}}>Share</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           )
         }
@@ -138,21 +173,17 @@ export default function ItemDetails({ navigation, session, route }) {
 const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
-    backgroundColor: 'lightgray',
+    backgroundColor: 'lightblue',
     padding: 20,
     shadowOffset: 1,
     shadowOpacity: 0.1
   },
   button: {
     backgroundColor: 'white',
-    padding: 15,
+    padding: 20,
     borderRadius: 10,
-    marginBottom: 15
-  },
-  delete: {
-    backgroundColor: 'pink',
-    padding: 15,
-    borderRadius: 10
+    alignItems: 'center',
+    flex: 1
   },
   image: {
     width: '100%',

@@ -59,14 +59,16 @@ const MyItems = ({ session, navigation }) => {
         </TouchableOpacity>
       </View>
 
+
       <FlatList 
         data={userItems}
         renderItem={({item}) => (
-          <TouchableOpacity onPress={() => navigation.navigate('ItemDetails', { item })}>
+          <TouchableOpacity onPress={() => navigation.navigate('ItemDetails', { item })} style={{padding: 10, width: '50%', height: 'auto', alignItems: 'center'}}>
             <ItemTile item={item} userId={userId}/>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item.id}
+        numColumns={2}
       />
 
 

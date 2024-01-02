@@ -42,6 +42,7 @@ const BottomTabs = ({ state, descriptors, navigation }) => {
             onPress={onPress}
             onLongPress={onLongPress}
             style={{ flex: 1, padding: 25, justifyContent: 'space-between', backgroundColor:'#efe0ff' }}
+            key={route.key}
           >
             {
                 options.tabBarIcon 

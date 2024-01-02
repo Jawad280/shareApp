@@ -23,7 +23,7 @@ export default function Feed({ navigation, session }) {
         if (error) {
           console.error(error.message)
         } else {
-          const filteredData = data.filter((item) => item.is_published && item.is_available)
+          const filteredData = data.filter((item) => item.is_available)
           console.log(filteredData)
           setAllItems(filteredData)
         }
@@ -32,15 +32,18 @@ export default function Feed({ navigation, session }) {
 
   return (
     <View style={globalStyles.container}>
-      <FlatList 
-        data={allItems}
-        keyExtractor={(items) => items.id}
-        renderItem={({item}) => (
-          <TouchableOpacity onPress={() => navigation.navigate('ItemDetails', { item })}>
+      <View style={{alignItems: 'center', padding: 5}}>
+        <FlatList 
+          data={allItems}
+          keyExtractor={(items) => items.id}
+          renderItem={({item}) => (
+            <TouchableOpacity onPress={() => navigation.navigate('ItemDetails', { item })} style={{padding: 10, width: '50%', height: 'auto', alignItems: 'center'}}>
               <ItemTile item={item} userId={userId} onLike={setLikedItem} navigation={navigation}/>
-          </TouchableOpacity>
-        )}
-      />
+            </TouchableOpacity>
+          )}
+          numColumns={2}
+        />
+      </View>
     </View>
   )
 }
