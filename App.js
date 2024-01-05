@@ -8,15 +8,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'react-native-url-polyfill/auto'
 
 import ItemCreation from './screens/ItemCreation';
-import Feed from './screens/Feed';
 import ItemDetails from './screens/ItemDetails';
 
 import { supabase } from './lib/supabase';
-import Account from './components/Account';
 import Auth from './components/Auth';
 import Chatroom from './screens/Chatroom';
-import AllChats from './screens/AllChats';
-import MyItems from './screens/MyItems';
 import Main from './screens/Main';
 
 SplashScreen.preventAutoHideAsync();

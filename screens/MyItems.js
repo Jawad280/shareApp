@@ -57,7 +57,7 @@ const MyItems = ({ session, navigation }) => {
         <TouchableOpacity style={styles.buttonClicked} onPress={getLikedItems}>
           <Text style={{ fontSize: 18, padding: 20 }}>Your Liked Items</Text>
         </TouchableOpacity>
-      </View>
+      </View>  
 
 
       <FlatList 

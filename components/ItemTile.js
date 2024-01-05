@@ -69,7 +69,7 @@ export default function ItemTile({ item, userId, onLike, navigation }) {
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent:'space-between'}}>
         <View style={styles.textContainer}>
           <Text style={styles.header}>{item.name}</Text>
-          <Text>{username}</Text>
+          <Text style={{fontSize: 12}}>{username}</Text>
         </View>
         
         <TouchableOpacity style={styles.likeContainer} onPress={handleLike}>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
       flex: 1
     },
     header: {
-      fontSize: 18,
+      fontSize: 15,
       fontWeight: 'bold'
     },
     likeContainer: {

@@ -10,6 +10,9 @@ export default function ItemDetails({ navigation, session, route }) {
     const userId = session.user.id;
 
     const [isAvail, setIsAvail] = useState(item.is_available);
+    const [imageUrls, setImageUrls] = useState(null);
+
+    const urlSample = ["https://mijtuqpmfdwbdbpyvged.supabase.co/storage/v1/object/public/item_images/IMG_7006.jpg", "https://mijtuqpmfdwbdbpyvged.supabase.co/storage/v1/object/public/item_images/IMG_7007.jpg"];
 
     const handleDelete = async () => {
       console.log('delete item');
@@ -98,6 +101,30 @@ export default function ItemDetails({ navigation, session, route }) {
       console.log('share link generated ?')
     }
 
+    const getImages = async () => {
+      const { data, error } = await supabase
+      .storage
+      .from('item_images')
+      .list(item.id)
+
+      if (error) {
+        console.error(error.message)
+      } else {
+        const imageUrls = data.map(image => {
+          const imageUrl = supabase
+            .storage
+            .from('item_images')
+            .getPublicUrl(image.name);
+          return imageUrl;
+        });
+
+        const mapped = imageUrls.map((img) => img.data.publicUrl)
+        setImageUrls(mapped);
+      }
+    }
+
+    console.log(imageUrls);
+
   return (
     <View style={globalStyles.container}>
       <View style={{ rowGap: 15, margin: 15 }}>
@@ -110,6 +137,27 @@ export default function ItemDetails({ navigation, session, route }) {
           placeholder={'Image here'}
           style={styles.image}
         />
+
+        {/* <Carousel 
+          renderItem={({ item: url }) => (
+            <Image 
+              source={{uri: url}}
+              width={600}
+              height={600}
+              contentFit='cover'
+              placeholder={'Image here'}
+              style={styles.image}
+            />
+          )}
+          data={urlSample}
+          sliderWidth={'auto'}
+          itemWidth={'auto'}
+        /> */}
+
+
+        <TouchableOpacity onPress={getImages}>
+          <Text>Get Image</Text>
+        </TouchableOpacity>
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
 
@@ -188,8 +236,6 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 300,
-    borderRadius: 10,
-    shadowOffset: 1,
-    shadowOpacity: 0.1
+    borderRadius: 10
   }
 })
